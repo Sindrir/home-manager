@@ -26,11 +26,11 @@
   ];
   programs.home-manager.enable = true;
   home.shellAliases = {
-    k = "kubectl"
-  }
+    k = "kubectl";
+  };
   home.sessionVariables = {
     EDITOR = "nvim";
     BROWSER = "firefox";
     TERMINAL = "kitty";
-  }
+  };
 }

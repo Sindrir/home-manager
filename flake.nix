@@ -18,22 +18,18 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     allowUnfree = true;
-	configModule = {
-	  # Add any custom options (and do feel free to upstream them!)
-	  # options = { ... };
-
-	  config.vim = {
-		theme.enable = true;
-		# and more options as you see fit...
-		treeSitter.enable = true;
-		
-	  };
-	};
-
-	customNeovim = nvf.lib.neovimConfiguration {
-	  inherit pkgs;
-	  modules = [configModule];
-	};
+    configModule = {
+    # Add any custom options (and do feel free to upstream them!)
+    # options = { ... };
+      config.vim = {
+        theme.enable = true;
+        # and more options as you see fit...
+      };
+    };
+    customNeovim = nvf.lib.neovimConfiguration {
+      inherit pkgs;
+      modules = [configModule];
+    };
   in {
     packages.${system}.my-neovim = customNeovim.neovim;
     homeConfigurations = {
