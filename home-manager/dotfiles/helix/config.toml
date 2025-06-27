@@ -1,0 +1,5 @@
+[editor]
+line-number = "relative"
+color-modes = true
+cursorline = true
+cursorcolumn = true

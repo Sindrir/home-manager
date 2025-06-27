@@ -1,0 +1,6 @@
+[[languages]]
+name = "nix"
+formatter = { command = "nixpkgs-fmt" }
+
+[language-server.rust-analyzer.config.cargo]
+features = "all"
