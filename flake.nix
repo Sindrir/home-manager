@@ -47,21 +47,39 @@
       # it's a better practice than "default" shown in the video
 
       # NixOS 'nixos-rebuild --flake .#HOST
-      nixosConfigurations.home-desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/home-desktop/configuration.nix
-          home-manager.nixosModules.default
-          {
-            home-manager = {
-              extraSpecialArgs = {
-                inherit inputs;
+      nixosConfigurations = {
+        home-desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/home-desktop/configuration.nix
+            home-manager.nixosModules.default
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                useGlobalPkgs = true;
+                users.sindreo = import ./home-manager/sindreo.nix;
               };
-              useGlobalPkgs = true;
-              users.sindreo = import ./home-manager/sindreo.nix;
-            };
-          }
-        ];
+            }
+          ];
+        };
+        work-laptop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/work-laptop/configuration.nix
+            home-manager.nixosModules.default
+            {
+              home-manager = {
+                extraSpecialArgs = {
+                  inherit inputs;
+                };
+                useGlobalPkgs = true;
+                users.sindreo = import ./home-manager/sindreo.nix;
+              };
+            }
+          ];
+        };
       };
 
       # Standalone home-manager 'home-manager --flake .#USERNAME

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -11,26 +11,6 @@
       ../common.nix
     ];
 
-  environment.shellAliases = {
-    tree = "eza --tree";
-    nurse = "sudo nixos-rebuild switch --flake /etc/nixos#home-desktop";
-  };
-  hardware = {
-    graphics.enable = true;
-    opengl = {
-      enable = true;
-      #driSupport = true;
-      #driSupport32bit = true;
-    };
-    nvidia = {
-      modesetting.enable = true;
-      open = true;
-      nvidiaSettings = true;
-    };
-  };
-
-  services.xserver.videoDrivers = ["nvidia"];
-  
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -38,52 +18,94 @@
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  users.users.sindreo = {
-    isNormalUser = true;
-    home = "/home/sindreo";
-    description = "Sindre Østrem";
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
-    uid = 1000;
-  };
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # Enable COSMIC
+  services.desktopManager.cosmic.enable = true;
+
 
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
 
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.sindreo = {
+    isNormalUser = true;
+    description = "Sindre Østrem";
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    packages = with pkgs; [
+    #  thunderbird
+    ];
+  };
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    mangohud
-    protonup-qt
-    lutris
-    bottles
-    heroic
+#    # System / WM
+#    gnomeExtensions.paperwm
+#
+#    # Programming
+#    ## Editors
+#    vim
+#    helix
+#    neovim
+#    zed-editor
+#    jetbrains-toolbox
+#
+#    ## DB
+#    mongodb-compass
+#
+#    ## Docker
+#    docker
+#    docker-compose
+#
+#    # Notes
+#    obsidian
+#
+#    # General
+#    wget
+#    atuin
+#    kubectl
+#    git
+#    nordpass
+#    spotify
+#    networkmanagerapplet
+#
+#    # Comms
+#    teams-for-linux
+#    slack
+#
+#    # Terminal
+#    wezterm
+#
+#    # Shell
+#    fish
+#    oh-my-fish
+#    yazi
+#    fzf
+#    zoxide
+#    lazygit
+#    gitui
+#
+#    # LSP
+#    kotlin-language-server
+#    lua-language-server
+#    marksman
+#    nil
+#    nixpkgs-fmt
   ];
-  programs = {
-    niri.enable = true;
-    steam = {
-      enable = true;
-      gamescopeSession.enable = true;
-    };
-    gamemode.enable = true;
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -111,4 +133,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
+
 }

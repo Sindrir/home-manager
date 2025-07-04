@@ -5,33 +5,35 @@
     enable = true;
     mime.enable = true;
   };
-  targets.genericLinux.enable = true;
+  #targets.genericLinux.enable = true;
   #nixpkgs.allowUnfreePredicate = _: true;
+
   home = {
     username = "sindreo";
     homeDirectory = "/home/sindreo";
     stateVersion = "25.05";
     packages = with pkgs; [
       # CLI
-      vim
       wget
-      starship
       eza
       bat
       neofetch
       atuin
       kubectl
       git
+      gitui
       lazygit
+      networkmanagerapplet
+
+      # Shell
+      fish
+      oh-my-fish
+      starship
+
+      ## Shell extras
       zoxide
       fzf
       yazi
-      fish
-      oh-my-fish
-
-      # Terminal editors
-      helix
-      neovim
 
       ## LSP
       kotlin-language-server
@@ -52,8 +54,23 @@
       ## Music
       spotify
 
-      ## Programming
-      #jetbrains.idea-ultimate
+      ## General
+      nordpass # Password manager
+
+      # Programming
+      ## Editors
+      vim
+      helix
+      neovim
+      zed-editor
+      jetbrains-toolbox
+
+      ## DB
+      mongodb-compass
+
+      ## Docker
+      docker
+      docker-compose
 
       ## notes
       obsidian
@@ -65,12 +82,9 @@
       pavucontrol
     ];
     file = {
-      ".config/wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/dotfiles/wezterm.lua;
-      ".config/helix/config.toml".source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/dotfiles/helix/config.toml;
-      ".config/helix/languages.toml".source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/dotfiles/helix/languages.toml;
-    };
-    shellAliases = {
-      k = "kubectl";
+       ".config/fish".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/config/fish;
+       ".config/wezterm".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/config/wezterm;
+       ".config/helix".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/config/helix;
     };
     sessionVariables = {
       EDITOR = "hx";
@@ -85,12 +99,6 @@
       package = inputs.wezterm.packages.${pkgs.system}.default;
     };
     bottom.enable = true;
-    fish = {
-      shellAliases = {
-        nurse = "sudo nixos-rebuild switch --flake /etc/nixos#home-desktop";
-        tree = "eza --tree";
-      };
-    };
   };
   #nixGL = {
   #  packages = import nixgl {inherit pkgs;};
