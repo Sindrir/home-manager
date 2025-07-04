@@ -60,6 +60,7 @@
                 };
                 useGlobalPkgs = true;
                 users.sindreo = import ./home-manager/sindreo.nix;
+                backupFileExtension = "bak";
               };
             }
           ];
@@ -76,6 +77,7 @@
                 };
                 useGlobalPkgs = true;
                 users.sindreo = import ./home-manager/sindreo.nix;
+                backupFileExtension = "bak";
               };
             }
           ];
